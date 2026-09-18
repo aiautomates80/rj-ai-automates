@@ -56,10 +56,10 @@ export function HeroVisual() {
           {edges.map(([a, b], i) => (
             <line
               key={i}
-              x1={nodes[a].x}
-              y1={nodes[a].y}
-              x2={nodes[b].x}
-              y2={nodes[b].y}
+              x1={nodes[a]!.x}
+              y1={nodes[a]!.y}
+              x2={nodes[b]!.x}
+              y2={nodes[b]!.y}
               stroke="url(#rj-edge)"
               strokeWidth="1.5"
               className="animate-dash"
