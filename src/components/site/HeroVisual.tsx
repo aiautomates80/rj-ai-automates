@@ -56,10 +56,10 @@ export function HeroVisual() {
           {edges.map(([a, b], i) => (
             <line
               key={i}
-              x1={nodes[a].x}
-              y1={nodes[a].y}
-              x2={nodes[b].x}
-              y2={nodes[b].y}
+              x1={nodes[a]!.x}
+              y1={nodes[a]!.y}
+              x2={nodes[b]!.x}
+              y2={nodes[b]!.y}
               stroke="url(#rj-edge)"
               strokeWidth="1.5"
               className="animate-dash"
@@ -109,7 +109,7 @@ export function HeroVisual() {
         </div>
       </div>
 
-      <div className="glass-panel animate-float absolute -bottom-6 -left-4 hidden rounded-2xl px-4 py-3 sm:block">
+      <div className="glass-panel animate-float absolute -bottom-10 -left-5 hidden rounded-2xl px-4 py-3 lg:block">
         <p className="font-mono text-[0.6rem] tracking-[0.16em] text-muted-foreground uppercase">
           AI Processing
         </p>
