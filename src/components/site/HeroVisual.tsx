@@ -76,7 +76,7 @@ export function HeroVisual() {
                 cy={n.y}
                 r="7"
                 fill="url(#rj-edge)"
-                stroke="oklch(0.99 0 0 / 35%)"
+                stroke="var(--color-background)"
                 strokeWidth="1"
               />
               <text

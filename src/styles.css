@@ -206,8 +206,8 @@
 
 @utility grid-backdrop {
   background-image:
-    linear-gradient(to right, oklch(0.99 0 0 / 4%) 1px, transparent 1px),
-    linear-gradient(to bottom, oklch(0.99 0 0 / 4%) 1px, transparent 1px);
+    linear-gradient(to right, oklch(0.24 0.02 265 / 6%) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(0.24 0.02 265 / 6%) 1px, transparent 1px);
   background-size: 64px 64px;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black 20%, transparent 78%);
 }
@@ -249,7 +249,7 @@
   }
   50% {
     opacity: 1;
-    filter: drop-shadow(0 0 8px oklch(0.68 0.16 256 / 70%));
+    filter: drop-shadow(0 0 8px oklch(0.54 0.18 262 / 55%));
   }
 }
 
@@ -313,7 +313,7 @@
 }
 .card-hover:hover {
   transform: translateY(-6px);
-  border-color: oklch(0.68 0.16 256 / 45%);
+  border-color: oklch(0.54 0.18 262 / 35%);
   box-shadow: var(--glow-soft);
 }
 
