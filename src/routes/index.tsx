@@ -89,6 +89,7 @@ function Home() {
       </main>
       <Footer />
       <WhatsAppFloat />
+      <ChatWidget />
     </div>
   );
 }
