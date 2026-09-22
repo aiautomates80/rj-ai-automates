@@ -13,8 +13,8 @@ type Message = {
   id: number;
   role: "user" | "assistant";
   text: string;
-  actions?: ChatAction[];
-  quickReplies?: string[];
+  actions?: ChatAction[] | undefined;
+  quickReplies?: string[] | undefined;
 };
 
 let nextId = 1;
