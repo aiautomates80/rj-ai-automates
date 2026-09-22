@@ -32,7 +32,7 @@ export function WorkflowMockup({
         className="grid gap-3 p-5 sm:grid-cols-2 lg:grid-cols-4"
         style={{
           backgroundImage:
-            "radial-gradient(oklch(0.99 0 0 / 7%) 1px, transparent 1px)",
+            "radial-gradient(oklch(0.24 0.02 265 / 9%) 1px, transparent 1px)",
           backgroundSize: "22px 22px",
         }}
       >
