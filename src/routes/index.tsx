@@ -13,6 +13,7 @@ import { CTA } from "@/components/site/CTA";
 import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 import { WhatsAppFloat } from "@/components/site/WhatsAppFloat";
+import { ChatWidget } from "@/components/site/chatbot/ChatWidget";
 
 const TITLE = "RJ AI Automates | AI Automation, AI Agents & AI Website Design";
 const DESCRIPTION =
