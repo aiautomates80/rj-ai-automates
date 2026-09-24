@@ -6,6 +6,7 @@ import {
   askN8n,
   BACKEND_ERROR,
   getAnswer,
+  N8N_CONFIGURED,
   QUICK_REPLIES,
   WELCOME_TEXT,
   type ChatAction,
