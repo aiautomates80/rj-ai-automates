@@ -199,7 +199,8 @@ export function getAnswer(input: string): ChatAnswer {
  *
  * TODO: replace with your n8n Production Webhook URL.
  */
-const N8N_WEBHOOK_URL = "YOUR_PRODUCTION_WEBHOOK_URL";
+const N8N_WEBHOOK_URL =
+  "https://aiautomates.app.n8n.cloud/webhook/9b41c6a9-5875-4aff-b55e-48aad4c14022/chat";
 
 export const N8N_CONFIGURED =
   N8N_WEBHOOK_URL !== "YOUR_PRODUCTION_WEBHOOK_URL";
