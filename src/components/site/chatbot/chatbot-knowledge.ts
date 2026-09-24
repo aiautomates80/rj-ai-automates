@@ -174,8 +174,8 @@ Feel free to share your name, business, the service you need, a short descriptio
 ];
 
 /**
- * Local rule-based reply engine. Keep this the only place that produces answers,
- * so a real AI backend can replace `getAnswer` later without touching the UI.
+ * Local rule-based reply engine. Used as a fallback when the n8n webhook
+ * is unreachable, so the chatbot always has something helpful to say.
  */
 export function getAnswer(input: string): ChatAnswer {
   const q = input.toLowerCase().trim();
@@ -191,3 +191,74 @@ export function getAnswer(input: string): ChatAnswer {
   }
   return best?.answer ?? FALLBACK;
 }
+
+/**
+ * n8n backend — the ONLY backend endpoint for the chatbot.
+ * The n8n workflow holds any AI provider keys (Gemini/OpenAI) server-side;
+ * no API keys ever live in this frontend code.
+ *
+ * TODO: replace with your n8n Production Webhook URL.
+ */
+const N8N_WEBHOOK_URL = "YOUR_PRODUCTION_WEBHOOK_URL";
+
+export const N8N_CONFIGURED =
+  N8N_WEBHOOK_URL !== "YOUR_PRODUCTION_WEBHOOK_URL";
+
+const REQUEST_TIMEOUT_MS = 30_000;
+
+export type BackendResult =
+  | { ok: true; reply: string }
+  | { ok: false };
+
+export function getSessionId(): string {
+  const KEY = "rj-chat-session-id";
+  try {
+    let id = window.localStorage.getItem(KEY);
+    if (!id) {
+      id =
+        typeof crypto.randomUUID === "function"
+          ? crypto.randomUUID()
+          : `rj-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+      window.localStorage.setItem(KEY, id);
+    }
+    return id;
+  } catch {
+    return `rj-${Date.now()}`;
+  }
+}
+
+/**
+ * Send the visitor's message to the n8n webhook and return the AI reply.
+ * Returns { ok: false } on any failure so the UI can show a friendly error.
+ */
+export async function askN8n(message: string): Promise<BackendResult> {
+  if (!N8N_WEBHOOK_URL || N8N_WEBHOOK_URL === "YOUR_PRODUCTION_WEBHOOK_URL") {
+    return { ok: false };
+  }
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    const res = await fetch(N8N_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message, sessionId: getSessionId() }),
+      signal: controller.signal,
+    });
+    if (!res.ok) return { ok: false };
+    const data: unknown = await res.json();
+    const reply =
+      typeof data === "object" && data !== null && "reply" in data
+        ? String((data as { reply: unknown }).reply)
+        : "";
+    return reply.trim() ? { ok: true, reply } : { ok: false };
+  } catch {
+    return { ok: false };
+  } finally {
+    window.clearTimeout(timer);
+  }
+}
+
+export const BACKEND_ERROR: ChatAnswer = {
+  text: `Sorry, I'm having trouble reaching the assistant right now. Please try again in a moment, or message ${BRAND.name} directly on WhatsApp and we'll help you right away.`,
+  actions: [{ label: "💬 WhatsApp", href: BRAND.whatsapp }],
+};
