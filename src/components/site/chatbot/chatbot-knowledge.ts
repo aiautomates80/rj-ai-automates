@@ -201,6 +201,9 @@ export function getAnswer(input: string): ChatAnswer {
  */
 const N8N_WEBHOOK_URL = "YOUR_PRODUCTION_WEBHOOK_URL";
 
+export const N8N_CONFIGURED =
+  N8N_WEBHOOK_URL !== "YOUR_PRODUCTION_WEBHOOK_URL";
+
 const REQUEST_TIMEOUT_MS = 30_000;
 
 export type BackendResult =
