@@ -3,6 +3,8 @@ import { Bot, Send, Sparkles, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { BRAND } from "../site-data";
 import {
+  askN8n,
+  BACKEND_ERROR,
   getAnswer,
   QUICK_REPLIES,
   WELCOME_TEXT,
@@ -58,8 +60,15 @@ export function ChatWidget() {
     setMessages((m) => [...m, { id: newId(), role: "user", text: value }]);
     setInput("");
     setTyping(true);
-    window.setTimeout(() => {
-      const answer = getAnswer(value);
+    void (async () => {
+      const result = await askN8n(value);
+      // Webhook not configured yet → local knowledge base keeps the demo alive.
+      // Webhook configured but failed/empty → friendly error.
+      const answer = result.ok
+        ? { text: result.reply }
+        : N8N_CONFIGURED
+          ? BACKEND_ERROR
+          : getAnswer(value);
       setTyping(false);
       setMessages((m) => [
         ...m,
@@ -71,7 +80,7 @@ export function ChatWidget() {
           quickReplies: answer.quickReplies,
         },
       ]);
-    }, 520);
+    })();
   }
 
   return (
